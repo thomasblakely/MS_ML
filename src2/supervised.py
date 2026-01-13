@@ -26,8 +26,13 @@ def extract_features(series, low_th, high_th):
     cv_val = std_val / (mean_val + 1e-8)
 
     x = np.arange(len(series))
+    # ********ISSUE*********
+    # Fitting x vs x (always slope=1). Should be np.polyfit(x, series, 1)[0] to get trend of steps over time
     slope = np.polyfit(x, x, 1)[0]
 
+    # ********ISSUE*********
+    # ACF calculation error: correlating index positions (x) instead of step values (series)
+    # Should be: acf7 = np.corrcoef(series[:-7], series[7:])[0, 1]
     if len(series) > 7:
         acf7 = np.corrcoef(x[:-7], x[7:])[0, 1]
     else:
@@ -49,6 +54,11 @@ def extract_features(series, low_th, high_th):
 def build_windows(df, window, interval):
     df_windows = make_windows(df, window = window, interval = interval)
 
+    # ********ISSUE*********
+    # DATA LEAKAGE: Thresholds calculated on ALL data before train/test split
+    # Should calculate only on training data after split
+    # ********ISSUE*********
+    # LABEL INCONSISTENCY: label==0 is MS patients, not healthy. Should be label==1 for healthy controls
     health_steps = df[df['label'] == 0]['steps']
     low_th = np.percentile(health_steps, 10)
     high_th = np.percentile(health_steps, 90)

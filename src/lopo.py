@@ -102,6 +102,11 @@ def main():
     x = np.load('output/ready/x_train.npy')
     y = np.load('output/ready/y_train.npy')
 
+    # ********ISSUE*********
+    # INAPPROPRIATE CV METHOD: Using StratifiedKFold with shuffle on temporal data
+    # Filename says "lopo" (leave-one-patient-out) but this is NOT LOPO
+    # Sliding windows from same patient can appear in both train and test (data leakage)
+    # Should use GroupKFold with patient IDs or true LOPO
     # 20-fold stratified CV to preserve class balance in each fold
     skf = StratifiedKFold(n_splits=20, shuffle=True, random_state=42)
     device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')

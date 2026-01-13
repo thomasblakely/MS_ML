@@ -18,6 +18,9 @@ def check_dates(df):
     return summary
 
 def sort_by_dates(summary):
+    # ********ISSUE*********
+    # MISLEADING VARIABLE NAME: Variable named "top_20" but selects 30 patients
+    # Print says "top 20" but actually shows 30 (functional code is correct, just confusing naming)
     top_20 = summary.query("num_days >= 12").nlargest(30, 'num_days').reset_index(drop=True)
     print("Here's the top 20 patients:")
     print(top_20)

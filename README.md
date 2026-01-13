@@ -17,11 +17,11 @@ python3 src/advanced.py
 ```
 3. The gragh.py will generate the graph of the dataset, the first function will create the a linear graph based on all the patient. The second sunction will generate one patient graph according to your choice.
 ```bash
-python src/gragh.py
+python src2/gragh.py
 
 or
 
-python3 src/gragh.py
+python3 src2/gragh.py
 ```
 
 4. I updated all the unsupersived learning things under the /unsupersived folder.

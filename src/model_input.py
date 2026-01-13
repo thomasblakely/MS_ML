@@ -6,6 +6,10 @@ def load_data():
     return df
 
 def split_data(df, train_ratio):
+    # ********ISSUE*********
+    # TEMPORAL SPLIT ONLY FOR MS PATIENTS: This splits by time for MS patients (fitmri_id)
+    # Healthy controls from Kaggle don't have this field, so asymmetric treatment
+    # Only MS patients get temporal 80/20 split, healthy controls handled elsewhere
     train_df = []
     test_df = []
     for pid, col in df.groupby('fitmri_id'):
